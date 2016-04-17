@@ -6,31 +6,51 @@
 //  Copyright © 2016 Paul Bunting. All rights reserved.
 //
 
-import XCTest
+import Quick
+import Nimble
 @testable import OHTreesAppConfig
 
-class OHTreesAppConfigTests: XCTestCase {
+
+class OHTreesAppConfigTests: QuickSpec {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    override func spec() {
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+        describe("OHTreesAppConfig on first launch") {
+
+            let defaults = NSUserDefaults(suiteName: "group.\(NSBundle.mainBundle().bundleIdentifier!).documents")!
+            
+            var runFirstHandler: Bool!
+            
+            beforeEach() {
+                defaults.removeObjectForKey("AppConfig.Defaults.firstLaunchKey")
+                runFirstHandler = false
+                NSLog("Resetting NSUserDefaults")
+                AppConfig.sharedAppConfig.runHandlerOnFirstLaunch {
+                    runFirstHandler = true
+                }
+            }
+            
+            it("is first launch") {
+                _ = AppConfig.sharedAppConfig
+                expect(runFirstHandler).to(equal(true))
+            }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+        }
+        
+        describe("OHTreesAppConfig after first launch") {
+            
+            var runFirstHandler: Bool!
+
+            beforeEach() {
+                runFirstHandler = false
+                AppConfig.sharedAppConfig.runHandlerOnFirstLaunch {
+                    runFirstHandler = true
+                }
+                let appConfig = AppConfig.sharedAppConfig
+                expect(runFirstHandler).to(equal(false))
+                let appConfigType = Mirror(reflecting: appConfig)
+                expect(appConfigType.subjectType == AppConfig.self).to(equal(true))
+            }
         }
     }
-    
 }
