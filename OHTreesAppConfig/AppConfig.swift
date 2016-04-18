@@ -50,6 +50,10 @@ public class AppConfig {
         applicationUserDefaults.setObject(value, forKey: key)
     }
     
+    public func remove(key: String) {
+        applicationUserDefaults.removeObjectForKey(key)
+    }
+    
     public private(set) var isFirstLaunch: Bool {
         get {
             registerDefaults()

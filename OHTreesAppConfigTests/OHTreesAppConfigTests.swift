@@ -16,12 +16,11 @@ class OHTreesAppConfigTests: QuickSpec {
     override func spec() {
     
         describe("OHTreesAppConfig on first launch") {
-
-            let defaults = NSUserDefaults(suiteName: "group.\(NSBundle.mainBundle().bundleIdentifier!).documents")!
             
             var runFirstHandler: Bool!
             
             beforeEach() {
+                let defaults = NSUserDefaults(suiteName: "group.\(NSBundle.mainBundle().bundleIdentifier!).documents")!
                 defaults.removeObjectForKey("AppConfig.Defaults.firstLaunchKey")
                 runFirstHandler = false
                 NSLog("Resetting NSUserDefaults")

@@ -801,6 +801,7 @@
 				2F1928A61CC4249E001E4007 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
